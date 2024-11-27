@@ -9,7 +9,7 @@ nome_projeto VARCHAR (100) NOT NULL,
 numero_projeto INT ,
 localizacao_projeto VARCHAR (100),
 CONSTRAINT pk_tbProjeto PRIMARY KEY (numero_projeto)
-);
+); 
 
 CREATE TABLE tbEmpregado (
 nome_emp VARCHAR (100) NOT NULL ,
@@ -440,9 +440,101 @@ ON tbDepartamento.rgGerente_depto= tbEmpregado.RG_emp
 ORDER BY tbDepartamento.nome_depto;
 
 -- QUESTÃO 44
-UPDATE  tbEmpregado
-SET salario_emp = salario_emp*1.10
+ UPDATE  tbEmpregado 
+SET salario_emp = salario_emp+(salario_emp*0.1)
+WHERE num_depto_emp IN (SELECT tbEmpregado.num_depto_emp
+					FROM tbEmpregado INNER JOIN tbDepartamento
+                    ON tbEmpregado.num_depto_emp = tbDepartamento.numero_depto
+                    WHERE tbDepartamento.nome_depto = 'Desenvolvimento'
+                    ); 
+                    
+-- QUESTÃO 45
+UPDATE tbEmpregado
+SET salario_emp = salario_emp+(salario_emp*0.03)
+WHERE RG_emp IN (SELECT tbEmpregado.RG_emp
+				FROM tbEmpregado INNER JOIN tbDepartamento
+                ON tbEmpregado.RG_emp = tbDepartamento.rgGerente_depto);
 
+-- QUESTÃO 46 
+/* DELETE FROM  tbEmpregadoProjeto
+WHERE tbEmpregadoProjeto.rg_emp IN (SELECT tbEmpregado.RG_emp
+										FROM tbEmpregado INNER JOIN tbDepartamento  ON tbEmpregado.num_depto_emp = tbDepartamento.numero_depto
+									    WHERE tbDepartamento.nome_depto='Limpeza' 
+									);
+DELETE FROM tbDependentes 
+WHERE tbDependentes.rgResponsavel_dep IN (SELECT tbEmpregado.RG_emp
+										FROM tbEmpregado INNER JOIN tbDepartamento ON  tbEmpregado.num_depto_emp  = tbDepartamento.numero_depto
+									    WHERE tbDepartamento.nome_depto='Limpeza' 
+                                        );
+                                        */
+-- QUESTÃO 47 
+SELECT tbEmpregado.nome_emp
+FROM tbEmpregado INNER JOIN tbEmpregadoProjeto 
+ON tbEmpregado.RG_emp= tbEmpregadoProjeto.rg_emp
+INNER JOIN  tbProjeto
+ON tbEmpregadoProjeto.numero_projeto= tbProjeto.numero_projeto
+WHERE tbEmpregadoProjeto.numero_projeto IS NULL;
+        
+-- QUESTÃO 48
+SELECT tbEmpregado.nome_emp
+FROM tbEmpregado
+WHERE tbEmpregado.RG_emp NOT IN (SELECT tbDependentes.rgResponsavel_dep
+FROM tbDependentes);
+                
+-- QUESTÃO 49 
+SELECT nome_emp, salario_emp
+FROM tbEmpregado
+WHERE salario_emp = (SELECT MAX(salario_emp)
+FROM tbEmpregado);
+        
+-- QUESTÃO 50 
+SELECT nome_emp, salario_emp
+FROM tbEmpregado
+WHERE salario_emp = (SELECT MIN(salario_emp)
+FROM tbEmpregado);
+          
+-- QUESTÃO 51
+SELECT tbDependentes.nome_dep
+FROM tbDependentes
+WHERE tbDependentes.dataNascimento_dep <= ALL (SELECT tbDependentes.dataNascimento_dep
+     FROM tbDependentes );  
+     
+ -- QUESTÃO 52    
+SELECT tbDependentes.nome_dep
+FROM tbDependentes
+WHERE tbDependentes.dataNascimento_dep >= ALL (SELECT tbDependentes.dataNascimento_dep
+FROM tbDependentes );  
+
+-- QUESTÃO 53	
+SELECT tbEmpregado.nome_emp
+FROM tbEmpregado
+WHERE tbEmpregado.RG_emp NOT IN (SELECT tbEmpregado.RG_emp
+								FROM tbEmpregado INNER JOIN tbDependentes
+								ON tbEmpregado.RG_emp=tbDependentes.rgResponsavel_dep) 
+	AND tbEmpregado.RG_emp NOT IN (SELECT tbEmpregado.RG_emp
+                                   FROM tbEmpregado INNER JOIN tbEmpregadoProjeto
+                                   ON tbEmpregado.RG_emp =tbEmpregadoProjeto.rg_emp); 
+-- QUESTÃO 54     
+SELECT tbEmpregado.nome_emp
+FROM tbEmpregado
+WHERE tbEmpregado.RG_emp  IN (SELECT tbEmpregado.RG_emp
+								FROM tbEmpregado INNER JOIN tbDependentes
+								ON tbEmpregado.RG_emp=tbDependentes.rgResponsavel_dep) 
+	AND tbEmpregado.RG_emp NOT IN (SELECT tbEmpregado.RG_emp
+                                   FROM tbEmpregado INNER JOIN tbEmpregadoProjeto
+                                   ON tbEmpregado.RG_emp =tbEmpregadoProjeto.rg_emp);                                
+                                   
+                                       
+       
+
+
+        
+        
+        
+        
+									
+                                    
+				
 
 
 
