@@ -1,4 +1,4 @@
-CREATE DATABASE db_capitulo8;
+
 USE db_capitulo8;
 
 CREATE TABLE tbSala(
@@ -144,12 +144,14 @@ WHERE numero_sala =10 AND data_filme ='2021-09-03';
 
 DELETE  FROM tbPremio 
 WHERE tbPremio.codigo_filme IN  (SELECT  tbFilme.codigo_filme
-							FROM tbFilme INNER JOIN tbDiretor ON tbFilme.codigo_diretor = tbDiretor.codigo_diretor
+							FROM tbFilme INNER JOIN tbDiretor 
+                            ON tbFilme.codigo_diretor = tbDiretor.codigo_diretor
                             WHERE tbDiretor.nome_diretor = 'Pedro Paulo Matos');
                             
 DELETE FROM tbSalaFilme 
  WHERE tbSalaFilme.codigo_filme IN (SELECT tbFilme.codigo_filme
-									FROM tbFilme INNER JOIN tbDiretor ON tbFilme.codigo_diretor = tbDiretor.codigo_diretor
+									FROM tbFilme INNER JOIN tbDiretor 
+                                    ON tbFilme.codigo_diretor = tbDiretor.codigo_diretor
                                     WHERE tbDiretor.nome_diretor = 'Pedro Paulo Mato');
 
 DELETE FROM tbFilme
@@ -164,6 +166,5 @@ WHERE nome_diretor = 'Pedro Paulo Matos';
    WHERE codigo_diretor IN (SELECT tbDiretor.codigo_diretor
 							FROM tbDiretor
                             WHERE tbDiretor.nome_diretor = 'Roberto Nascimento');
-
 
 
