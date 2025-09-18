@@ -1,6 +1,4 @@
-CREATE DATABASE  bd_sistemaMarioJunior;
-USE  bd_sistemaMarioJunior;
-
+USE  db_mario_junior;
 
 CREATE TABLE mpj_tbFornecedor (
 mpj_cnpjFornecedor INT NOT NULL,
