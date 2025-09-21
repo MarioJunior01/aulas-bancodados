@@ -54,7 +54,7 @@ CONSTRAINT pk_tbFuncionario PRIMARY KEY (mpj_cpfFuncionario)
  mpj_dataNascimentoUsuario DATE NOT NULL,
  mpj_ativoUsuario BOOLEAN ,
  mpj_nivelUsuario VARCHAR (40),
- mpj_senhaFuncionario VARCHAR (70),
+ mpj_senhaUsuario VARCHAR (70),
  
  CONSTRAINT pk_tbUsuario PRIMARY KEY (mpj_idUsuario)
  );
