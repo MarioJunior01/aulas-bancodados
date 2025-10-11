@@ -1,3 +1,4 @@
+CREATE DATABASE db_mario_junior;
 USE  db_mario_junior;
 
 CREATE TABLE mpj_tbFornecedor (
@@ -5,6 +6,7 @@ mpj_cnpjFornecedor INT NOT NULL,
 mpj_nomeFantasiaFornecedor VARCHAR (60) NOT NULL,
 mpj_razaoSocialFornecedor VARCHAR (60) NOT NULL,
 mpj_dataCriacaoFornecedor  DATE ,
+mpj_capitaFornecedor DECIMAL(10,2),
 mpj_porteFornecedor VARCHAR (20),
 mpj_quantidadeFuncionariosFornecedor  LONG,
 mpj_segmentoFornecedor VARCHAR (40),
@@ -28,6 +30,7 @@ mpj_dataFabricaoProduto DATE NOT NULL,
 mpj_nomeFabricante VARCHAR (60) NOT NULL,
 mpj_segmentoProduto VARCHAR (20),
 mpj_validadeProduto DATE NOT NULL,
+mpj_preco_produto DECIMAl(10,2),
 mpj_descricaoProduto VARCHAR (300),
 
 CONSTRAINT pk_tbProduto PRIMARY KEY (mpj_idProduto)
@@ -62,7 +65,7 @@ CONSTRAINT pk_tbFuncionario PRIMARY KEY (mpj_cpfFuncionario)
  CREATE TABLE mpj_tbCompra(
  mpj_idCompra INT AUTO_INCREMENT,
  mpj_dataCompra DATE NOT NULL,
- mpj_valorCompra DOUBLE NOT NULL,
+ mpj_valorCompra DECIMAL (10,2) NOT NULL,
  mpj_cpfFuncionarioCompra INT,
  mpj_cnpjFornecedorCompra INT,
  
@@ -77,10 +80,10 @@ CONSTRAINT fk_tbCompraFornecedor FOREIGN KEY (mpj_cnpjFornecedorCompra) REFERENC
   mpj_quantidadeProduto INT NOT NULL,
   mpj_idProduto INT,
   mpj_idCompraProduto INT,
+  mpj_valorUnitario DECIMAL (10,2),
   
   CONSTRAINT pk_tbCompraProduto PRIMARY KEY (mpj_idCompraProduto),
   
   CONSTRAINT fk_tbCompraProduto_tbCompra FOREIGN KEY  tbCompra (mpj_idCompraProduto	) REFERENCES mpj_tbCompra (mpj_idCompra),
   CONSTRAINT fk_tbCompraProdut_tbProduto FOREIGN KEY tbProduto (mpj_idProduto) REFERENCES mpj_tbProduto(mpj_idProduto)
  );
- 
